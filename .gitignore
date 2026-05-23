@@ -1,6 +1,6 @@
 test.sh
 __pycache__
-dataset_logging.csv
+*.csv
 llm
 paper
 
