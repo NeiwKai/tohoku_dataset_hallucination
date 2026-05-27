@@ -42,6 +42,9 @@ class DatasetManager:
             "abstract",
             "filepath",
             "question",
+            "annotator",
+            "model_generated",
+            "q_prompt",
             "answer"
         ]
 
@@ -79,7 +82,10 @@ class DatasetManager:
         COLUMNS=[
             "question_id",
             "paper_id",
-            "question"
+            "question",
+            "annotator",
+            "model_generated",
+            "q_prompt"
         ]
 
         try:

@@ -31,6 +31,9 @@ def gen_answer():
     """
     llm = st.session_state.llm
     question = st.session_state.question
+    annotator = st.session_state.annotator
+    model_generated = st.session_state.model_generated
+    q_prompt = st.session_state.q_prompt
     answer = llm.gen_answer(prompt, question)
 
     # Update Dataset
@@ -42,6 +45,9 @@ def gen_answer():
         "abstract": abstract,
         "filepath": filepath,
         "question": question,
+        "annotator": annotator,
+        "model_generated": model_generated,
+        "q_prompt": q_prompt,
         "answer": answer
     }
     df_log.to_csv(f"../{st.session_state.dataset_logging_csv.name}", index=False, quoting=1)
@@ -50,7 +56,10 @@ def gen_answer():
     df_question.loc[len(df_question)] = {
         "question_id": question_id,
         "paper_id": paper_id,
-        "question": question
+        "question": question,
+        "annotator": annotator,
+        "model_generated": model_generated,
+        "q_prompt": q_prompt
     }
     df_question.to_csv(f"../{st.session_state.question_list_csv.name}", index=False, quoting=1)
 
@@ -118,8 +127,15 @@ if "manager" in st.session_state and st.session_state.manager.is_upload_all():
                     st.markdown(f":blue-background[**Number of question:** {num_question}]")
         # --------------
 
-        st.selectbox("Paper ID:", df_conference["paper_id"].unique(), key="paper_id")
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.selectbox("Paper ID:", df_conference["paper_id"].unique(), key="paper_id")
+        with col2:
+            st.selectbox("Annotator:", ["New", "Hall", "Pun"], key="annotator")
+        with col3:
+            st.selectbox("Model Generated:", [1, 0], key="model_generated")
         st.text_area("Question:", key="question")
+        st.text_area("Question Prompt:", key="q_prompt", placeholder="Leave it empty if the question is not generated")
 
 
         if st.button("Submit", on_click=gen_answer):
