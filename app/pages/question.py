@@ -133,7 +133,7 @@ if "manager" in st.session_state and st.session_state.manager.is_upload_all():
         with col2:
             st.selectbox("Annotator:", ["New", "Hall", "Pun"], key="annotator")
         with col3:
-            st.selectbox("Model Generated:", [1, 0], key="model_generated")
+            st.selectbox("Model Generated:", [0, 1], key="model_generated")
         st.text_area("Question:", key="question")
         st.text_area("Question Prompt:", key="q_prompt", placeholder="Leave it empty if the question is not generated")
 
