@@ -99,7 +99,7 @@ if __name__ == '__main__':
             "answer": answer
         }
 
-        dataset_logging_df.to_csv(dataset_logging_csv_path, index=False)
+        dataset_logging_df.to_csv(dataset_logging_csv_path, index=False, quoting=1)
         write_count += 1
 
     print(f"Finish with {write_count} rows update!")
