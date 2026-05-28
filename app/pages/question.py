@@ -144,6 +144,7 @@ if "manager" in st.session_state and st.session_state.manager.is_upload_all():
     container = st.container()
     with container:
         st.subheader("Dataset List")
+        st.markdown(f":blue-background[Total Question: {len(st.session_state.manager.dataset_logging_df)}]")
         st.dataframe(st.session_state.manager.dataset_logging_df)
 
 else:

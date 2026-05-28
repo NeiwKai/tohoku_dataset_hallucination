@@ -45,6 +45,7 @@ if "manager" in st.session_state and st.session_state.manager.is_upload_all():
     container = st.container()
     with container:
         st.subheader("Conference Paper List")
+        st.markdown(f":blue-background[Total Conference: {len(df_conference)}]")
         st.dataframe(df_conference)
 
 else:
