@@ -64,7 +64,7 @@ def gen_answer():
     df_question.to_csv(f"../{st.session_state.question_list_csv.name}", index=False, quoting=1)
 
     # Clear text_input
-    st.session_state.paper_id = ""
+    #st.session_state.paper_id = ""
     st.session_state.question = ""
 
 
