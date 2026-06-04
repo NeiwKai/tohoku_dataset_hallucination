@@ -13,11 +13,16 @@ def gen_answer():
         df_conference["paper_id"] == paper_id
     ].iloc[0]
 
+
     question_id = df_question["question_id"].iloc[-1] + 1
     conference_source = matched_row["conference_source"]
     abstract = matched_row["abstract"]
     filepath = matched_row["filepath"]
 
+    year = matched_row["year"]
+    title = matched_row["title"]
+    venue = matched_row["venue"]
+    venue_type = matched_row["venue_type"]
 
     df_log = st.session_state.manager.dataset_logging_df
 
@@ -31,6 +36,7 @@ def gen_answer():
     """
     llm = st.session_state.llm
     question = st.session_state.question
+    question_type = st.session_state.question_type
     annotator = st.session_state.annotator
     model_generated = st.session_state.model_generated
     q_prompt = st.session_state.q_prompt
@@ -40,11 +46,15 @@ def gen_answer():
     df_log.loc[len(df_log)] = {
         "question_id": question_id,
         "model": llm.get_name(),
-        "conference_source": conference_source,
+        "year": year,
+        "title": title,
+        "venue": venue,
+        "venue_type": venue_type,
         "paper_id": paper_id,
         "abstract": abstract,
         "filepath": filepath,
         "question": question,
+        "question_type": question_type,
         "annotator": annotator,
         "model_generated": model_generated,
         "q_prompt": q_prompt,
@@ -57,6 +67,7 @@ def gen_answer():
         "question_id": question_id,
         "paper_id": paper_id,
         "question": question,
+        "question_type": question_type,
         "annotator": annotator,
         "model_generated": model_generated,
         "q_prompt": q_prompt
@@ -66,6 +77,7 @@ def gen_answer():
     # Clear text_input
     #st.session_state.paper_id = ""
     st.session_state.question = ""
+    st.session_state.question_type = ""
 
 
 st.title("Question")
@@ -114,12 +126,18 @@ if "manager" in st.session_state and st.session_state.manager.is_upload_all():
                 with container:
                     paper_id = st.session_state.paper_id
                     matched_row = df_conference[df_conference["paper_id"]==paper_id].iloc[0]
-                    st.subheader(matched_row["conference_source"])
+                    st.subheader(f"{matched_row['title']}, {matched_row['year']}")
 
-                    col1, col2 = st.columns(2)
-                    with col1:
+                    col1_a, col2_a = st.columns(2)
+                    with col1_a:
+                        st.markdown(f":yellow-background[**Venue:** {matched_row['venue']}]")
+                    with col2_a:
+                        st.markdown(f":green-background[**Venue Type:** {matched_row['venue_type']}]")
+
+                    col1_b, col2_b = st.columns(2)
+                    with col1_b:
                         st.markdown(f":red-background[**Paper ID:** {matched_row['paper_id']}]")
-                    with col2:
+                    with col2_b:
                         st.markdown(f":orange-background[**Filepath:** `{matched_row['filepath']}`]")
                     st.write(matched_row["abstract"])
 
@@ -134,6 +152,8 @@ if "manager" in st.session_state and st.session_state.manager.is_upload_all():
             st.selectbox("Annotator:", ["New", "Hall", "Pun"], key="annotator")
         with col3:
             st.selectbox("Model Generated:", [0, 1], key="model_generated")
+
+        st.text_input("Question Type:", key="question_type", placeholder="e.g. verrify, or Leave it empty if cannot come up with.")
         st.text_area("Question:", key="question")
         st.text_area("Question Prompt:", key="q_prompt", placeholder="Leave it empty if the question is not generated")
 

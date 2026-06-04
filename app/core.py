@@ -37,11 +37,15 @@ class DatasetManager:
         COLUMNS=[
             "question_id",
             "model",
-            "conference_source",
+            "year",
+            "title",
+            "venue",
+            "venue_type",
             "paper_id",
             "abstract",
             "filepath",
             "question",
+            "question_type",
             "annotator",
             "model_generated",
             "q_prompt",
@@ -83,6 +87,7 @@ class DatasetManager:
             "question_id",
             "paper_id",
             "question",
+            "question_type",
             "annotator",
             "model_generated",
             "q_prompt"
@@ -106,7 +111,10 @@ class DatasetManager:
     def load_conference_paper(self, path) -> int:
         COLUMNS = [
             "paper_id",
-            "conference_source",
+            "year",
+            "title",
+            "venue",
+            "venue_type",
             "abstract",
             "filepath"
         ]
