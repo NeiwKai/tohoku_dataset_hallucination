@@ -15,7 +15,6 @@ def gen_answer():
 
 
     question_id = df_question["question_id"].iloc[-1] + 1
-    conference_source = matched_row["conference_source"]
     abstract = matched_row["abstract"]
     filepath = matched_row["filepath"]
 
