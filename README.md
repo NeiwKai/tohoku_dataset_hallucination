@@ -35,3 +35,19 @@
 `clustering.py`
 -   An clustering technique using k-means for generating "question_type" columns.
 -   Will update the `question_type.csv`.
+
+#### File explanation
+`merged_dataset_logging.csv`
+-   A merge version of New and Hall `dataset_logging.csv`.
+-   "question_type" is still empty.
+
+`merged_question_list.csv`
+-   A merge version of New and Hall `question_list.csv`.
+-   "question_type" is still empty.
+
+`merged_conference_paper.csv`
+-   A merge version of New and Hall `conference_paper.csv`.
+
+`merged_dataset_logging_cluster.csv`
+-   A merge version of New and Hall `dataset_logging.csv`.
+-   "question_type" is now filled and also have its topic name.
