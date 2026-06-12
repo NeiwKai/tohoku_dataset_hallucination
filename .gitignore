@@ -6,3 +6,11 @@ paper
 .DS_Store
 test.py
 test
+
+#Draft
+best_k.py
+cluster_mapping.py
+formatter.py
+fusion.py
+map_topic.py
+remapping_id.py
