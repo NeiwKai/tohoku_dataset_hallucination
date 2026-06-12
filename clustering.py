@@ -8,7 +8,7 @@ from umap import UMAP
 import plotly.express as px
 
 if __name__ == '__main__':
-    df = pd.read_csv("question_list.csv")
+    df = pd.read_csv("merged_dataset_logging.csv")
 
     model = SentenceTransformer("all-MiniLM-L6-v2")
 
@@ -17,12 +17,30 @@ if __name__ == '__main__':
         normalize_embeddings=True
     )
 
+
     kmeans = KMeans(
         n_clusters=3,
         random_state=42
     )
 
     clusters = kmeans.fit_predict(embeddings)
+
+
+    '''
+    # UMAP and HDBSCAN
+    reduced = UMAP(
+        n_neighbors=15,
+        min_dist=0.0,
+        metric="cosine"
+    ).fit_transform(embeddings)
+
+    clusters = hdbscan.HDBSCAN(
+        min_cluster_size=20
+    ).fit_predict(reduced)
+    '''
+
+
+
 
     '''
     # Reduce dimensions for visualization
@@ -65,10 +83,10 @@ if __name__ == '__main__':
 
         samples = (
             df[df["question_type"] == cluster_id]
-            .sample(min(20, len(df[df["question_type"] == cluster_id])))
+            .sample(min(50, len(df[df["question_type"] == cluster_id])))
         )
 
         for q in samples["question"]:
             print("-", q)
 
-    df.to_csv("dataset_logging_cluster.csv", index=False, quoting=1)
+    df.to_csv("merged_dataset_logging_cluster.csv", index=False, quoting=1)
